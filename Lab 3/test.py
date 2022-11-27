@@ -3,14 +3,14 @@
 
 import pandas as pd
 import numpy as np
-import operator
+# import operator
 from sklearn import linear_model,metrics
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import cross_val_score
 
-data = pd.read_csv('communities.data', header=None)
+data = pd.read_csv('C:\projects\ml_course-main\Lab 3\communities.data', header=None)
 data=data.drop([3], axis=1)
 num_row, num_col = data.shape
 selected_column = []
@@ -58,46 +58,63 @@ plt.plot(sort_colum(x_test), y_predict, color="blue", linewidth=3)
 
 plt.xticks(())
 plt.yticks(())
-
+plt.title( "Linear MSE = {})".format(mse ) )
 plt.savefig('linear')
 plt.clf()
 
 
 # Polynominal
-degree = 3
-polynomial_features = PolynomialFeatures(degree=degree, include_bias=False)
+# x_train = x_train[:60]
+# y_train = y_train[:60]
+# x_test = x_test[:60]
+# y_test = y_test[:60]
+degrees = [1, 2]#, 3, 4]
+for degree in degrees:
+    polynomial_features = PolynomialFeatures(degree=degree, include_bias=False)
 
-linear_regression = linear_model.LinearRegression()
-pipeline = Pipeline(
-    [
-        ("polynomial_features", polynomial_features),
-        ("linear_regression", linear_regression),
-    ]
-)
-pipeline.fit(x_train, y_train)
+    linear_regression = linear_model.LinearRegression()
+    pipeline = Pipeline(
+        [
+            ("polynomial_features", polynomial_features),
+            ("linear_regression", linear_regression),
+        ]
+    )
+    pipeline.fit(x_train, y_train)
 
-# Evaluate the models using crossvalidation
-scores = cross_val_score(
-    pipeline, x_train, y_train, scoring="neg_mean_squared_error", cv=10
-)
-print('\t','polynominal regression model:')
-print('Cross value score:', scores)
-# Cross value score: [-0.09607235 -0.08938946 -0.07994708 -0.10289258 -0.08274842 -0.12539637
-#  -0.10511104 -0.07318767 -0.09384545 -0.09321418]
+    # Evaluate the models using crossvalidation
+    scores = cross_val_score(
+        pipeline, x_train, y_train, scoring="neg_mean_squared_error", cv=10
+    )
+    print('\t','polynominal regression model:')
+    print('Cross value score:', scores)
+    # Cross value score: [ -77.33569045  -57.2715422   -28.44285826 -227.31448579   -0.446458
+    #  -182.14188518   -1.72085151  -17.56463659  -32.19301248  -62.89467899]
 
-def true_fun(X):
-    return np.cos(1.5 * np.pi * X)
+    y_pred_poly = pipeline.predict(x_test)
 
-y_pred_poly = pipeline.predict(x_test)
+    plt.plot(sort_colum(x_test), y_pred_poly, label="Model")
+    plt.scatter(sort_colum(x_test), y_test, edgecolor="b", s=20, label="Samples")
+    plt.title(
+            "Degree {}\nMSE = {:.2e}(+/- {:.2e})\nMetrics.MSE = {}".format(
+                degree, -scores.mean(), scores.std(), metrics.mean_squared_error(y_test, y_pred_poly)
+            )
+        )
+    plt.savefig('Polynominal ' + str(degree) + ' not optimized')
+    plt.clf()
 
-plt.plot(sort_colum(x_test), y_pred_poly, label="Model")
-# plt.plot(sort_colum(x_test), true_fun(x_test), label="True function")
-plt.scatter(sort_colum(x_test), y_test, edgecolor="b", s=20, label="Samples")
-plt.savefig('Polynominal')
-
+# Lasso
+alpha_list = [0.0001, 0.001, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5]
+for alpha in alpha_list:
+    reg = linear_model.Lasso(alpha=alpha)
+    reg.fit(x_train, y_train)
+    y_pred = pipeline.predict(x_test)
+    plt.plot(sort_colum(x_test), y_pred, label="Model")
+    plt.scatter(sort_colum(x_test), y_test, edgecolor="b", s=20, label="Samples")
+    plt.title(metrics.mean_squared_error(y_test, y_pred))
+    plt.savefig('Lasso with alpha - ' + str(alpha) + '.png')
+    plt.clf()
 
 # Interesting
-plt.clf()
 
 def my_linspace(min_value, max_value, steps):
     diff = max_value - min_value
