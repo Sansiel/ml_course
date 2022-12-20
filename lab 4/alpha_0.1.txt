@@ -1,0 +1,46 @@
+************************************************************************************************
+Проеверка модели  MLP  на alpha =  0.1
+MLP  accuracy:  0.3399602385685885
+MLP  f-measure:  0.10148367952522255
+
+Точность модели на полной выборке
+MLP  scores by cv:  [0.10102136 0.18302228 0.16788588 0.09478673 0.09660377 0.09878391
+ 0.10458716 0.17278682 0.10322581 0.09631728]
+MLP  scores (mean) 0.12190209985926803
+
+Точность модели на обучающей выборке
+MLP  scores by cv:  [0.97187524 0.97695752 0.98591689 0.99702925 0.98666599 0.99299809
+ 0.98840916 0.97837377 0.96639125 0.98771439]
+MLP  scores (mean) 0.983233153795279
+
+Точность модели на тестовой выборке
+MLP  scores by cv:  [0.10935252 0.09774436 0.00780488 0.11182796 0.10441176 0.10935252
+ 0.09774436 0.1        0.00970874 0.10974729]
+MLP  scores (mean) 0.08576943878024948
+
+************************************************************************************************
+Проеверка модели  Perceptron  на alpha =  0.1
+Perceptron  accuracy:  0.3399602385685885
+Perceptron  f-measure:  0.10148367952522255
+
+Точность модели на полной выборке
+Perceptron  scores by cv:  [0.10620438 0.10539799 0.09708373 0.10620438 0.10413983 0.09962687
+ 0.10620438 0.10322581 0.10102136 0.02691415]
+Perceptron  scores (mean) 0.09560228664626716
+
+Точность модели на обучающей выборке
+Perceptron  scores by cv:  [0.95723671 0.96820062 0.97949078 0.98266751 0.98596465 0.9667659
+ 0.96510305 0.97602003 0.97890089 0.99045263]
+Perceptron  scores (mean) 0.975080276357396
+
+Точность модели на тестовой выборке
+Perceptron  scores by cv:  [0.08063241 0.09774436 0.09774436 0.11182796 0.10656934 0.10935252
+ 0.10869565 0.11079137 0.10549451 0.10974729]
+Perceptron  scores (mean) 0.10385997679059233
+
+
+
+C:\Users\devil\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\neural_network\_multilayer_perceptron.py:702: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn't converged yet.
+  warnings.warn(
+C:\Users\devil\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\neural_network\_multilayer_perceptron.py:702: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn't converged yet.
+  warnings.warn(
